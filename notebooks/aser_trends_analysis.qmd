@@ -1,0 +1,163 @@
+---
+title: "ASER Trends: Year-over-Year Changes"
+format: pdf
+---
+
+```{r}
+#| label: setup
+#| message: false
+
+library(tidyverse)
+```
+
+```{r}
+#| label: load-and-prep
+
+aser <- read_csv("../data/raw/ASER trends over time.csv") |>
+  filter(year <= 2014) |>
+  arrange(State, year) |>
+  group_by(State) |>
+  mutate(
+    d_std3_read_std1_all = std3_read_std1_all - lag(std3_read_std1_all),
+    d_std5_read_std2_all = std5_read_std2_all - lag(std5_read_std2_all),
+    d_std3_subtract_all  = std3_subtract_all  - lag(std3_subtract_all),
+    d_std5_divis_all     = std5_divis_all     - lag(std5_divis_all)
+  ) |>
+  ungroup()
+```
+
+```{r}
+#| label: pairwise-diffs
+
+outcome_vars <- c(
+  "std3_read_std1_all", "std5_read_std2_all",
+  "std3_subtract_all",  "std5_divis_all"
+)
+
+aser_slim <- aser |>
+  filter(year >= 2007) |>
+  select(year, State, all_of(outcome_vars))
+
+aser_pairs <- aser_slim |>
+  inner_join(aser_slim, by = "year", suffix = c("_1", "_2")) |>
+  filter(State_1 < State_2) |>
+  mutate(
+    abs_diff_std3_read_std1_all = abs(std3_read_std1_all_1 - std3_read_std1_all_2),
+    abs_diff_std5_read_std2_all = abs(std5_read_std2_all_1 - std5_read_std2_all_2),
+    abs_diff_std3_subtract_all  = abs(std3_subtract_all_1  - std3_subtract_all_2),
+    abs_diff_std5_divis_all     = abs(std5_divis_all_1     - std5_divis_all_2)
+  ) |>
+  select(year, State_1, State_2, starts_with("abs_diff_"))
+```
+
+```{r}
+#| label: hist-std3-read-std1
+#| fig-cap: "Year-over-year change in Std 3 reading at Std 1 level (all)"
+
+ggplot(aser, aes(x = d_std3_read_std1_all)) +
+  geom_histogram(bins = 30, fill = "steelblue", color = "white") +
+  labs(
+    x = "Change from prior year",
+    y = "Count",
+    title = "Std 3 reading at Std 1 level (all): annual change"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+#| label: hist-std5-read-std2
+#| fig-cap: "Year-over-year change in Std 5 reading at Std 2 level (all)"
+
+ggplot(aser, aes(x = d_std5_read_std2_all)) +
+  geom_histogram(bins = 30, fill = "steelblue", color = "white") +
+  labs(
+    x = "Change from prior year",
+    y = "Count",
+    title = "Std 5 reading at Std 2 level (all): annual change"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+#| label: hist-std3-subtract
+#| fig-cap: "Year-over-year change in Std 3 subtraction (all)"
+
+ggplot(aser, aes(x = d_std3_subtract_all)) +
+  geom_histogram(bins = 30, fill = "steelblue", color = "white") +
+  labs(
+    x = "Change from prior year",
+    y = "Count",
+    title = "Std 3 subtraction (all): annual change"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+#| label: hist-std5-divis
+#| fig-cap: "Year-over-year change in Std 5 division (all)"
+
+ggplot(aser, aes(x = d_std5_divis_all)) +
+  geom_histogram(bins = 30, fill = "steelblue", color = "white") +
+  labs(
+    x = "Change from prior year",
+    y = "Count",
+    title = "Std 5 division (all): annual change"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+#| label: hist-pairs-std3-read-std1
+#| fig-cap: "Pairwise absolute difference: Std 3 reading at Std 1 level (all)"
+
+ggplot(aser_pairs, aes(x = abs_diff_std3_read_std1_all)) +
+  geom_histogram(bins = 30, fill = "coral", color = "white") +
+  labs(
+    x = "Absolute difference between states",
+    y = "Count",
+    title = "Std 3 reading at Std 1 level (all): pairwise abs. difference"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+#| label: hist-pairs-std5-read-std2
+#| fig-cap: "Pairwise absolute difference: Std 5 reading at Std 2 level (all)"
+
+ggplot(aser_pairs, aes(x = abs_diff_std5_read_std2_all)) +
+  geom_histogram(bins = 30, fill = "coral", color = "white") +
+  labs(
+    x = "Absolute difference between states",
+    y = "Count",
+    title = "Std 5 reading at Std 2 level (all): pairwise abs. difference"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+#| label: hist-pairs-std3-subtract
+#| fig-cap: "Pairwise absolute difference: Std 3 subtraction (all)"
+
+ggplot(aser_pairs, aes(x = abs_diff_std3_subtract_all)) +
+  geom_histogram(bins = 30, fill = "coral", color = "white") +
+  labs(
+    x = "Absolute difference between states",
+    y = "Count",
+    title = "Std 3 subtraction (all): pairwise abs. difference"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+#| label: hist-pairs-std5-divis
+#| fig-cap: "Pairwise absolute difference: Std 5 division (all)"
+
+ggplot(aser_pairs, aes(x = abs_diff_std5_divis_all)) +
+  geom_histogram(bins = 30, fill = "coral", color = "white") +
+  labs(
+    x = "Absolute difference between states",
+    y = "Count",
+    title = "Std 5 division (all): pairwise abs. difference"
+  ) +
+  theme_minimal()
+```
