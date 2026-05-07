@@ -1,0 +1,28 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Data files — keep folder structure but never check in actual data
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Background documentation
+background_docs/
+
+# macOS metadata
+.DS_Store
+
+# Quarto render output
+*.html
+*.pdf
+*_files/
+.quarto/
