@@ -61,6 +61,7 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(survey)
+library(gt)
 
 df <- read_dta("../data/raw/EG DIB_Main Student Data.dta")
 ctrl <- filter(df, treatment == 0)
@@ -199,6 +200,17 @@ means5 <- cohort_means(grade5, "End of Grade 5")
 means3_norm <- cohort_means_normalized(grade3, "End of Grade 3")
 means4_norm <- cohort_means_normalized(grade4, "End of Grade 4")
 means5_norm <- cohort_means_normalized(grade5, "End of Grade 5")
+
+make_gt_table <- function(data, y_label = "Mean score (SE)") {
+  data |>
+    mutate(cell = paste0(round(mean_score, 2), " (", round(se, 2), ")")) |>
+    select(cohort, subject, cell) |>
+    pivot_wider(names_from = subject, values_from = cell) |>
+    gt() |>
+    cols_label(cohort = "Cohort") |>
+    tab_spanner(label = y_label, columns = -cohort) |>
+    tab_options(table.width = pct(100))
+}
 ```
 
 ### End of Grade 3
@@ -228,6 +240,10 @@ ggplot(means3, aes(x = cohort, y = mean_score, fill = cohort)) +
   )
 ```
 
+```{r grade3-table}
+make_gt_table(means3)
+```
+
 Scores divided by the pooled SD for each grade–subject combination, so bars are in units of SD and comparable across subjects.
 
 ```{r grade3-plot-norm}
@@ -246,6 +262,10 @@ ggplot(means3_norm, aes(x = cohort, y = mean_score, fill = cohort)) +
     legend.position = "none",
     axis.text.x = element_text(angle = 30, hjust = 1)
   )
+```
+
+```{r grade3-norm-table}
+make_gt_table(means3_norm, "Mean score in SD units (SE)")
 ```
 
 ---
@@ -277,6 +297,10 @@ ggplot(means4, aes(x = cohort, y = mean_score, fill = cohort)) +
   )
 ```
 
+```{r grade4-table}
+make_gt_table(means4)
+```
+
 Scores divided by the pooled SD for each grade–subject combination, so bars are in units of SD and comparable across subjects.
 
 ```{r grade4-plot-norm}
@@ -295,6 +319,10 @@ ggplot(means4_norm, aes(x = cohort, y = mean_score, fill = cohort)) +
     legend.position = "none",
     axis.text.x = element_text(angle = 30, hjust = 1)
   )
+```
+
+```{r grade4-norm-table}
+make_gt_table(means4_norm, "Mean score in SD units (SE)")
 ```
 
 ---
@@ -326,6 +354,10 @@ ggplot(means5, aes(x = cohort, y = mean_score, fill = cohort)) +
   )
 ```
 
+```{r grade5-table}
+make_gt_table(means5)
+```
+
 Scores divided by the pooled SD for each grade–subject combination, so bars are in units of SD and comparable across subjects.
 
 ```{r grade5-plot-norm}
@@ -344,6 +376,10 @@ ggplot(means5_norm, aes(x = cohort, y = mean_score, fill = cohort)) +
     legend.position = "none",
     axis.text.x = element_text(angle = 30, hjust = 1)
   )
+```
+
+```{r grade5-norm-table}
+make_gt_table(means5_norm, "Mean score in SD units (SE)")
 ```
 
 ---
@@ -429,6 +465,10 @@ ggplot(gains_means_3to4, aes(x = cohort, y = mean_score, fill = cohort)) +
   )
 ```
 
+```{r gains-3to4-table}
+make_gt_table(gains_means_3to4, "Mean gain in score points (SE)")
+```
+
 ---
 
 ### Grade 4 to Grade 5
@@ -456,6 +496,10 @@ ggplot(gains_means_4to5, aes(x = cohort, y = mean_score, fill = cohort)) +
     legend.position = "none",
     axis.text.x = element_text(angle = 30, hjust = 1)
   )
+```
+
+```{r gains-4to5-table}
+make_gt_table(gains_means_4to5, "Mean gain in score points (SE)")
 ```
 
 ---
