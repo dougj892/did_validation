@@ -4,6 +4,10 @@ project:
   resources:
     - .nojekyll
 
+format:
+  html:
+    embed-resources: true
+
 website:
   title: "DID Validation"
   navbar:

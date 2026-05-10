@@ -2,8 +2,10 @@
 title: "ASER Trends: Year-over-Year Changes"
 format:
   html:
-    embed-resources: true
     code-fold: true
+execute:
+  message: false
+  warning: false
 ---
 
 ## Overview
