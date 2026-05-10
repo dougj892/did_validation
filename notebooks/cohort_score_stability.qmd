@@ -1,6 +1,9 @@
 ---
 title: "End-of-Grade Score Stability Across Cohorts — EG DIB"
-format: html
+format:
+  html:
+    embed-resources: true
+    code-fold: true
 ---
 
 ## Overview

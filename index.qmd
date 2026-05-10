@@ -2,6 +2,8 @@
 title: "DID Validation"
 ---
 
+[Overview of EG Data](overview_of_eg_data.qmd)
+
 ## Notebooks
 
 - [ASER Trends Analysis](notebooks/aser_trends_analysis.qmd)

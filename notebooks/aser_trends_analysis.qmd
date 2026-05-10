@@ -1,6 +1,24 @@
 ---
 title: "ASER Trends: Year-over-Year Changes"
-format: html
+format:
+  html:
+    embed-resources: true
+    code-fold: true
+---
+
+## Overview
+
+**Objective:** Estimate how much learning outcomes change between cohorts in the ASER data, and assess whether a location-based difference-in-differences strategy applied to ASER data would yield precise estimates.
+
+A location-based DiD would compare year-over-year changes in outcomes across locations — exploiting variation in when an intervention rolled out across areas. Precision depends on how much of the total variation in outcomes is within-location over time (signal) versus across locations (noise absorbed by location fixed effects). If year-over-year changes are small relative to cross-location differences, the approach may have limited statistical power.
+
+**Data:** State-level ASER survey data from 2005 to 2014, drawn from the publicly available dataset at [github.com/dougj892/public-datasets](https://github.com/dougj892/public-datasets). All four outcomes reported in the original ASER reports are examined: the share of Std 3 students reading at Std 1 level, the share of Std 5 students reading at Std 2 level, the share of Std 3 students who can subtract, and the share of Std 5 students who can divide.
+
+**Analyses:**
+
+1. **Year-over-year changes** — For each state and year, the change from the prior year is computed for each outcome. Histograms show the distribution of these annual changes, giving a sense of how much scores typically shift from one cohort to the next.
+2. **Pairwise state differences** — For each year, absolute differences between all pairs of states are computed. Histograms show the distribution of these cross-location gaps. Comparing the two distributions indicates whether within-location change is large enough relative to cross-location variation to support a precise DiD estimate.
+
 ---
 
 ```{r}
