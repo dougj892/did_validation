@@ -8,6 +8,8 @@ website:
     left:
       - href: index.qmd
         text: Home
+      - href: overview_of_eg_data.qmd
+        text: Overview of EG Data
       - href: notebooks/aser_trends_analysis.qmd
         text: ASER Trends Analysis
       - href: notebooks/cohort_score_stability.qmd
