@@ -1,0 +1,8 @@
+---
+title: "DID Validation"
+---
+
+## Notebooks
+
+- [ASER Trends Analysis](notebooks/aser_trends_analysis.qmd)
+- [Cohort Score Stability](notebooks/cohort_score_stability.qmd)

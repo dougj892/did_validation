@@ -1,3 +1,14 @@
 project:
   type: website
   output-dir: docs
+
+website:
+  title: "DID Validation"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: notebooks/aser_trends_analysis.qmd
+        text: ASER Trends Analysis
+      - href: notebooks/cohort_score_stability.qmd
+        text: Cohort Score Stability
