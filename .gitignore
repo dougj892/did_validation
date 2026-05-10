@@ -22,7 +22,9 @@ background_docs/
 .DS_Store
 
 # Quarto render output
-*.html
 *.pdf
 *_files/
 .quarto/
+
+/.quarto/
+**/*.quarto_ipynb

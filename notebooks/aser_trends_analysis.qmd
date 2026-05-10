@@ -1,6 +1,6 @@
 ---
 title: "ASER Trends: Year-over-Year Changes"
-format: pdf
+format: html
 ---
 
 ```{r}
