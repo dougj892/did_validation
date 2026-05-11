@@ -18,6 +18,8 @@ If scores at a given grade are similar across these cohorts, it supports the ass
 
 **Scope:** All comparisons are restricted to the **control group** (`treatment == 0`, n = 3,396 students across 141 villages) to avoid any contamination from the Educate Girls program.
 
+**Warning** The standard errors reported in the figures and tables are for the cross sectional estimates. Since this is a longitudinal dataset, the standard errors of the diffs between cohorts would be smaller than the standard errors of the cross sectional estimates would imply. 
+
 ---
 
 ## Background: Cohort Assessment Schedule
